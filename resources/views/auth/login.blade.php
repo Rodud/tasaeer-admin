@@ -132,8 +132,8 @@
             display:flex;
             justify-content:center;
             align-items:center;
-            gap:18px;
-            margin-bottom:20px;
+            gap:14px;
+            margin-bottom:24px;
         }
         </style>
 
