@@ -1373,8 +1373,6 @@ animateCounter(
     new Set(P.cities.map(c => c.country)).size
 );
   $('tariffDate').textContent   = P.date;
-  $('telLink').textContent = BIZ.phone;
-  $('telLink').href = 'tel:' + String(BIZ.phone||'').replace(/[^0-9+]/g,'');
   $('waTop').href = 'https://wa.me/' + BIZ.whatsapp;
   $('ftPhone').textContent = BIZ.phone;
   $('ftMail').textContent  = BIZ.email;
