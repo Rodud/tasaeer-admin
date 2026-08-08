@@ -321,6 +321,64 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     object-fit: contain;
     vertical-align: middle;
 }
+.mobile-menu-btn,
+.mobile-menu {
+    display: none;
+  
+}
+
+@media (max-width: 768px) {
+
+    .desktop-actions {
+        display: none !important;
+    }
+
+    .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border: 1px solid var(--v-200);
+        border-radius: 12px;
+        background: #fff;
+        color: var(--v-700);
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .mobile-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        width: 190px;
+        padding: 10px;
+        background: #fff;
+        border: 1px solid var(--v-200);
+        border-radius: 14px;
+        box-shadow: var(--sh-2);
+        z-index: 1000;
+    }
+
+    .mobile-menu.open {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .mobile-menu a {
+        display: block;
+        padding: 12px 14px;
+        border-radius: 10px;
+        color: var(--ink-900);
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .mobile-menu a:hover {
+        background: var(--v-050);
+    }
+}
 
 </style>
 </head>
@@ -340,17 +398,36 @@ input[type="date"]::-webkit-calendar-picker-indicator{
       </div>
   </div>
     <div class="end">
-
-      <a class="tel" id="telLink" href="#">—</a>
-      <a id="waTop" href="#" target="_blank" rel="noopener"><button class="btn" type="button" data-i18n="تواصل معنا">{{ __('تواصل معنا') }}</button></a>
-            <button
-    class="btn ghost"
-    type="button"
-    onclick="window.location='{{ route('locale', app()->getLocale() === 'ar' ? 'en' : 'ar') }}'">
-
-    {{ app()->getLocale() === 'ar' ? 'EN' : 'العربية' }}
-
-</button>
+      <div class="desktop-actions">
+        <a class="tel" id="telLink" href="#">—</a>
+    
+        <a id="waTop" href="#" target="_blank" rel="noopener">
+            <button class="btn" type="button" data-i18n="تواصل معنا">
+                {{ __('تواصل معنا') }}
+            </button>
+        </a>
+    
+        <button
+            class="btn ghost"
+            type="button"
+            onclick="window.location='{{ route('locale', app()->getLocale() === 'ar' ? 'en' : 'ar') }}'">
+            {{ app()->getLocale() === 'ar' ? 'EN' : 'العربية' }}
+        </button>
+    </div>
+    
+    <button class="mobile-menu-btn" type="button" onclick="toggleMobileMenu()">
+        ☰
+    </button>
+    
+    <div class="mobile-menu" id="mobileMenu">
+        <a id="waMobile" href="#" target="_blank" rel="noopener">
+            {{ __('تواصل معنا') }}
+        </a>
+    
+        <a href="{{ route('locale', app()->getLocale() === 'ar' ? 'en' : 'ar') }}">
+            {{ app()->getLocale() === 'ar' ? 'EN' : 'العربية' }}
+        </a>
+    </div>
     </div>
   </div>
 </header>
@@ -1474,6 +1551,15 @@ async function send(mode){
 
     btn.textContent = T('أرسل الطلب');
     btn.disabled = false;
+}
+function toggleMobileMenu() {
+    $('mobileMenu').classList.toggle('open');
+
+    const mobileWa = $('waMobile');
+
+    if (mobileWa && BIZ?.whatsapp) {
+        mobileWa.href = 'https://wa.me/' + BIZ.whatsapp;
+    }
 }
 
 window.send = send;
