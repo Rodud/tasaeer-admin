@@ -68,7 +68,13 @@ a{color:var(--v-700);text-decoration:none}
 }
 .lockup .sep{width:2px;height:36px;border-radius:1px;
   background:linear-gradient(to bottom, var(--v-500) 50%, var(--s-500) 50%)}
-.top .end{margin-inline-start:auto;display:flex;align-items:center;gap:14px}
+  .top .end{
+    margin-inline-start:auto;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    position:relative;
+}
 .tel{font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink-500);direction:ltr}
 .btn{background:var(--v-500);color:#fff;border:0;border-radius:var(--pill);padding:11px 24px;
   font-family:"Cairo",sans-serif;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;
@@ -328,6 +334,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 }
 
 @media (max-width: 768px) {
+  .top-in {
+    position: relative;
+}
 
     .desktop-actions {
         display: none !important;
@@ -348,17 +357,19 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     }
 
     .mobile-menu {
-        position: absolute;
-        top: calc(100% + 8px);
-        left: 0;
-        width: 190px;
-        padding: 10px;
-        background: #fff;
-        border: 1px solid var(--v-200);
-        border-radius: 14px;
-        box-shadow: var(--sh-2);
-        z-index: 1000;
-    }
+    position: absolute;
+    top: calc(100% + 8px);
+    inset-inline-end: 0;
+    inset-inline-start: auto;
+    width: 190px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid var(--v-200);
+    border-radius: 14px;
+    box-shadow: var(--sh-2);
+    z-index: 1000;
+}
+
 
     .mobile-menu.open {
         display: flex;
@@ -399,7 +410,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
   </div>
     <div class="end">
       <div class="desktop-actions">
-        <a class="tel" id="telLink" href="#">—</a>
+   
     
         <a id="waTop" href="#" target="_blank" rel="noopener">
             <button class="btn" type="button" data-i18n="تواصل معنا">
