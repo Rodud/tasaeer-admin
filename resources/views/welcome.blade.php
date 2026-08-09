@@ -235,7 +235,11 @@ textarea{resize:vertical;line-height:1.7}
 .step h3{font-size:19px;margin:12px 0 8px}
 .step p{margin:0;font-size:14.5px;color:var(--ink-500)}
 .faq{padding-bottom:84px}
-.faq h2{font-size:38px;margin-bottom:28px}
+.faq h2{
+    font-size:38px;
+    margin-bottom:28px;
+    color:var(--ink-900);
+}
 details{background:var(--surface-0);border:1px solid var(--line);border-radius:var(--r2);margin-bottom:12px;padding:18px 24px}
 details[open]{border-color:var(--v-200)}
 summary{cursor:pointer;font-family:"Cairo",sans-serif;font-weight:700;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:16px}
@@ -274,7 +278,7 @@ footer{background:var(--ink-900);color:var(--ink-300)}
   .wrap,.top-in,.hero-in,.welcome,.ft{padding-inline:20px}
   .fields{grid-template-columns:1fr;padding-inline:20px}
   .f.full,.divider{grid-column:span 1}
-  .hero h1{font-size:29px} .hero p{font-size:17px}
+  .hero h1{font-size:29px} .hero p{font-size:17px ;color: #f0f2f5}
   .faq h2{font-size:28px} .qtotal .big{font-size:30px}
   .lockup img.seda{height:34px} .lockup img.togoo{height:24px}
 }
@@ -284,9 +288,14 @@ input[type="date"]::-webkit-date-and-time-value{
     text-align:center;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator{
-    position:absolute;
-    right:12px;
+@media (max-width: 640px) {
+    html[dir="rtl"] input[type="date"] {
+        padding-right: 40px;
+    }
+
+    html[dir="ltr"] input[type="date"] {
+        padding-left: 40px;
+    }
 }
 .ft-logos .logo{
     height:42px;
@@ -304,7 +313,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 
 .brand-subtitle{
     font-size:13px;
-    color:#6B7280;
+    color:#1F2937;
     margin-top:2px;
     line-height:1;
 }
@@ -389,6 +398,41 @@ input[type="date"]::-webkit-calendar-picker-indicator{
     .mobile-menu a:hover {
         background: var(--v-050);
     }
+}
+
+@media (max-width: 640px) {
+    input[type="date"] {
+        position: relative;
+    }
+
+    html[dir="rtl"] input[type="date"] {
+        padding-right: 40px;
+    }
+
+    html[dir="ltr"] input[type="date"] {
+        padding-left: 40px;
+    }
+
+    html[dir="rtl"] input[type="date"]::-webkit-calendar-picker-indicator {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    html[dir="ltr"] input[type="date"]::-webkit-calendar-picker-indicator {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+html[dir="rtl"] input[type="number"] {
+    text-align: right;
+}
+
+html[dir="ltr"] input[type="number"] {
+    text-align: left;
 }
 
 </style>
