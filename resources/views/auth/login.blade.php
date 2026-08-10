@@ -147,12 +147,12 @@
 
         <div class="logos">
 
-            <img
+            {{-- <img
             class="authority-logo"
             src="{{ asset('images/export-logo.png') }}"
-            alt="هيئة تنمية الصادرات السعودية">
+            alt="هيئة تنمية الصادرات السعودية"> --}}
         
-            <span class="divider"></span>
+            {{-- <span class="divider"></span> --}}
         
             <img
                 class="rodud-logo"

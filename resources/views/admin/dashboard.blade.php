@@ -1,293 +1,1016 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>توقو · طلبات التسعير</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+@extends('layouts.app')
+
+@section('content')
 <style>
-:root{
-  --v-700:#5F12A0; --v-500:#7818C0; --v-400:#9646D3; --v-200:#D7B8EE;
-  --v-100:#ECDFF7; --v-050:#F7F0FC;
-  --surface-0:#FFFFFF; --surface-50:#F7F5FA; --line-200:#E6E2EC;
-  --ink-300:#B7B2C2; --ink-400:#8A8497; --ink-500:#5B5468; --ink-900:#0E0A14;
-  --success:#1E9E6A; --warning:#C8821A; --danger:#D23A3A; --info:#2E6BD6;
-  --r2:10px; --r4:20px; --pill:999px;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--surface-50);color:var(--ink-900);
-  font-family:"IBM Plex Sans Arabic",system-ui,Tahoma,sans-serif;font-size:15px}
-h1{font-family:"Cairo",sans-serif;font-weight:900;font-size:26px;margin:0}
-.top{background:var(--surface-0);border-bottom:1px solid var(--line-200);padding:20px 32px;
-  display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.top .end{margin-inline-start:auto;display:flex;gap:10px;align-items:center}
-.wrap{padding:28px 32px 80px}
-.btn{background:var(--v-500);color:#fff;border:0;border-radius:var(--pill);padding:9px 20px;
-  font-family:"Cairo",sans-serif;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none;display:inline-block}
-.btn:hover{background:var(--v-700)}
-.btn.ghost{background:transparent;color:var(--v-500);border:1.5px solid var(--v-200)}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.filters button{background:var(--surface-0);border:1.5px solid var(--line-200);border-radius:var(--pill);
-  padding:7px 16px;font-family:inherit;font-size:13.5px;cursor:pointer;color:var(--ink-500)}
-.filters button[aria-pressed="true"]{background:var(--v-500);border-color:var(--v-500);color:#fff;font-weight:600}
-.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin-bottom:24px}
-.kpi{background:var(--surface-0);border:1px solid var(--line-200);border-radius:var(--r4);padding:20px}
-.kpi .l{font-size:13px;color:var(--ink-400)}
-.kpi .v{font-family:"Cairo",sans-serif;font-weight:900;font-size:30px;color:var(--v-500);line-height:1.2}
-table{width:100%;border-collapse:collapse;background:var(--surface-0);
-  border:1px solid var(--line-200);border-radius:var(--r4);overflow:hidden}
-th{text-align:right;font-size:12px;font-weight:600;color:var(--ink-400);padding:14px 16px;
-  background:var(--surface-50);border-bottom:1px solid var(--line-200);white-space:nowrap}
-td{padding:14px 16px;border-bottom:1px solid var(--line-200);font-size:14px;vertical-align:top}
-tr:last-child td{border-bottom:0}
-tr:hover td{background:var(--v-050)}
-.ref{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--v-500);direction:ltr}
-.money{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
-.ph{font-family:"IBM Plex Mono",monospace;font-size:13px;direction:ltr;color:var(--ink-500)}
-select{font-family:inherit;font-size:13px;border:1.5px solid var(--line-200);
-  border-radius:var(--pill);padding:6px 12px;background:var(--surface-0);cursor:pointer}
-.muted{color:var(--ink-400);font-size:12.5px}
-.badge{display:inline-block;border:1.5px solid;border-radius:var(--pill);padding:2px 10px;font-size:11.5px;font-weight:600}
-.empty{text-align:center;padding:64px 20px;color:var(--ink-400)}
-.note{font-size:13px;color:var(--ink-500);max-width:60ch;line-height:1.7}
-@media (max-width:1200px){.kpis{grid-template-columns:repeat(3,1fr)}}
-@media (max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}
-  .wrap,.top{padding-inline:16px} table{display:block;overflow-x:auto}}
+  :root {
+      --v-700: #5F12A0;
+      --v-500: #7818C0;
+      --v-400: #9646D3;
+      --v-200: #D7B8EE;
+      --v-100: #ECDFF7;
+      --v-050: #F7F0FC;
 
-  .user-menu{
-    position: relative;
-}
+      --s-500: #00AC8A;
+      --s-100: #D5F1EA;
 
-.dropdown-menu{
-    display: none;
-    position: absolute;
-    top: 55px;
-    right: 0;
-    left:auto;
+      --surface-0: #FFFFFF;
+      --surface-50: #F7F5FA;
+      --line: #E6E2EC;
+
+      --ink-400: #8A8497;
+      --ink-500: #5B5468;
+      --ink-700: #2B2333;
+      --ink-900: #0E0A14;
+
+      --success: #1E9E6A;
+      --warning: #C8821A;
+
+      --r4: 20px;
+
+      --sh1:
+          0 1px 2px rgba(14,10,20,.04),
+          0 1px 3px rgba(14,10,20,.05);
+
+      --sh2:
+          0 6px 20px rgba(14,10,20,.09);
+  }
+
+  .dashboard-page {
+      background: var(--surface-50);
+      min-height: calc(100vh - 65px);
+      padding: 36px 32px 70px;
+      font-family: "Tajawal", "Cairo", sans-serif;
+      color: var(--ink-900);
+  }
+
+  .dashboard-container {
+      max-width: 1320px;
+      margin: 0 auto;
+  }
+
+  /* Header */
+
+  .dashboard-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 28px;
+  }
+
+  .dashboard-heading h1 {
+      margin: 0;
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--ink-900);
+      line-height: 1.3;
+  }
+
+  .dashboard-heading p {
+      margin: 8px 0 0;
+      color: var(--ink-500);
+      font-size: 15px;
+  }
+
+  .dashboard-date {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 16px;
+      color: var(--ink-500);
+      font-size: 13px;
+      white-space: nowrap;
+      box-shadow: var(--sh1);
+  }
+
+  /* Welcome */
+
+  .welcome-card {
+      position: relative;
+      overflow: hidden;
+      background:
+          linear-gradient(
+              135deg,
+              var(--v-700),
+              var(--v-500)
+          );
+      border-radius: var(--r4);
+      padding: 30px 32px;
+      margin-bottom: 24px;
+      box-shadow: var(--sh2);
+      color: #fff;
+  }
+
+  .welcome-card::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      top: -90px;
+      inset-inline-end: -50px;
+  }
+
+  .welcome-card::before {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.05);
+      bottom: -80px;
+      inset-inline-start: 35%;
+  }
+
+  .welcome-content {
+      position: relative;
+      z-index: 1;
+  }
+
+  .welcome-card h2 {
+      margin: 0;
+      font-size: 25px;
+      font-weight: 800;
+  }
+
+  .welcome-card p {
+      margin: 8px 0 0;
+      font-size: 15px;
+      color: rgba(255,255,255,.82);
+  }
+
+  /* Statistics */
+
+  .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 24px;
+  }
+
+  .stat-card {
+      background: var(--surface-0);
+      border: 1px solid var(--line);
+      border-radius: var(--r4);
+      padding: 22px;
+      box-shadow: var(--sh1);
+      position: relative;
+      overflow: hidden;
+      transition: .2s ease;
+  }
+
+  .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--sh2);
+  }
+
+  .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+  }
+
+  .stat-label {
+      color: var(--ink-500);
+      font-size: 14px;
+      font-weight: 600;
+  }
+
+  .stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--v-050);
+      color: var(--v-500);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+  }
+
+  .stat-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+  }
+
+  .stat-value {
+      margin-top: 16px;
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 800;
+      color: var(--v-700);
+  }
+
+  .stat-card.success .stat-icon {
+      background: var(--s-100);
+      color: var(--s-500);
+  }
+
+  .stat-card.success .stat-value {
+      color: var(--success);
+  }
+
+  .stat-card.warning .stat-icon {
+      background: #FFF5E5;
+      color: var(--warning);
+  }
+
+  .stat-card.warning .stat-value {
+      color: var(--warning);
+  }
+
+  /* Main grid */
+
+  .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.55fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+  }
+
+  .dashboard-card {
+      background: var(--surface-0);
+      border: 1px solid var(--line);
+      border-radius: var(--r4);
+      box-shadow: var(--sh1);
+      overflow: hidden;
+  }
+
+  .card-header {
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+  }
+
+  .card-header h3 {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--ink-900);
+  }
+
+  .card-header p {
+      margin: 4px 0 0;
+      color: var(--ink-400);
+      font-size: 13px;
+  }
+
+  .card-body {
+      padding: 24px;
+  }
+
+  /* Last 7 days */
+
+  .days-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+  }
+
+  .day-row {
+      display: grid;
+      grid-template-columns: 55px 1fr 35px;
+      align-items: center;
+      gap: 12px;
+  }
+
+  .day-label {
+      color: var(--ink-500);
+      font-size: 13px;
+      font-weight: 600;
+  }
+
+  .day-bar-wrapper {
+      height: 10px;
+      background: var(--v-050);
+      border-radius: 999px;
+      overflow: hidden;
+  }
+
+  .day-bar {
+      height: 100%;
+      min-width: 3px;
+      background: linear-gradient(
+          90deg,
+          var(--v-400),
+          var(--v-500)
+      );
+      border-radius: 999px;
+      transition: width .4s ease;
+  }
+
+  .day-count {
+      color: var(--v-700);
+      font-size: 14px;
+      font-weight: 800;
+      text-align: end;
+  }
+
+  /* Confirmed value */
+
+  .value-card-body {
+      padding: 28px 24px;
+  }
+
+  .value-label {
+      color: var(--ink-500);
+      font-size: 14px;
+      font-weight: 600;
+  }
+
+  .confirmed-value {
+      margin-top: 12px;
+      font-size: 38px;
+      line-height: 1.1;
+      font-weight: 800;
+      color: var(--v-700);
+  }
+
+  .currency {
+      font-size: 17px;
+      color: var(--v-400);
+      margin-inline-start: 6px;
+  }
+
+  .value-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 24px 0;
+  }
+
+  .mini-stat {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 12px 0;
+  }
+
+  .mini-stat + .mini-stat {
+      border-top: 1px solid var(--line);
+  }
+
+  .mini-stat-label {
+      color: var(--ink-500);
+      font-size: 14px;
+  }
+
+  .mini-stat-value {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--ink-900);
+  }
+
+  /* Quick links */
+
+  .quick-links {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+  }
+
+  .quick-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--ink-900);
+      background: #fff;
+      transition: .2s ease;
+  }
+
+  .quick-link:hover {
+      border-color: var(--v-200);
+      background: var(--v-050);
+      transform: translateY(-2px);
+  }
+
+  .quick-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--v-050);
+      color: var(--v-500);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+  }
+
+  .quick-icon svg {
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+  }
+
+  .quick-link strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 800;
+  }
+
+  .quick-link span {
+      display: block;
+      margin-top: 2px;
+      font-size: 12px;
+      color: var(--ink-400);
+  }
+  .dashboard-filter {
     background: #fff;
-    border: 1px solid var(--line-200);
-    border-radius: 12px;
+    border: 1px solid #e9dff3;
+    border-radius: 18px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 15px rgba(88, 28, 135, 0.05);
+}
+
+.filter-form {
+    display: flex;
+    align-items: end;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.filter-field label {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.filter-field input {
+    height: 42px;
     min-width: 180px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.08);
-    overflow: hidden;
-    z-index: 1000;
+    padding: 0 12px;
+    border: 1px solid #ddd6e8;
+    border-radius: 10px;
+    background: #fff;
+    color: #374151;
 }
 
-.dropdown-menu.show{
-    display: block;
-}
-
-.dropdown-menu button{
-    width: 100%;
-    border: 0;
-    background: transparent;
-    padding: 14px 18px;
-    text-align: right;
+.filter-button {
+    height: 42px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 10px;
+    background: #7e22ce;
+    color: #fff;
+    font-weight: 600;
     cursor: pointer;
-    font-family: inherit;
+}
+
+.filter-button:hover {
+    background: #6b21a8;
+}
+
+.filter-reset {
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 18px;
+    border: 1px solid #ddd6e8;
+    border-radius: 10px;
+    color: #7e22ce;
+    text-decoration: none;
     font-size: 14px;
 }
 
-.dropdown-menu button:hover{
-    background: var(--v-050);
-}
+  /* Responsive */
 
-.dropdown-menu i{
-    margin-left: 8px;
-}  
-.user-btn{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:0;
-}
+  @media (max-width: 1100px) {
+      .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+      }
 
-.user-btn i{
-    font-size:17px;
-    color:var(--v-500);
-}
-</style>
-</head>
-<body>
-
-    <div class="top">
-        <h1>طلبات التسعير</h1>
-    
-        <div class="end">
-
-            <div class="user-menu">
-        
-                <button class="btn ghost user-btn" onclick="toggleMenu()">
-                    <i class="fa-solid fa-user"></i>
-                </button>
-        
-                <div id="userDropdown" class="dropdown-menu">
-        
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            تسجيل الخروج
-                        </button>
-                    </form>
-        
-                </div>
-        
-            </div>
-        
-            <a class="btn ghost" href="/quotes.csv">تصدير CSV</a>
-        
-            <button class="btn" onclick="load()">تحديث</button>
-        
-        </div>
-    </div>
-
-<div class="wrap">
-  <div class="kpis" id="kpis"></div>
-  <div class="filters" id="filters"></div>
-  <div id="table"></div>
-  <p class="note" style="margin-top:20px">
-    الحالة تُحفظ فوراً عند تغييرها. التصدير يشمل كل الطلبات وليس المعروض فقط.
-  </p>
-</div>
-
-<script>
-const STATUSES = ['جديد','قيد التسعير','أُرسل العرض','مؤكد','مرفوض'];
-const COLORS = {'جديد':'var(--info)','قيد التسعير':'var(--warning)',
-  'أُرسل العرض':'var(--v-500)','مؤكد':'var(--success)','مرفوض':'var(--danger)'};
-let ROWS = [], FILTER = '';
-
-const fmt = n => new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(n||0);
-const when = iso => new Date(iso).toLocaleString('ar-SA',
-  {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
-
-async function load(){
-  const r = await fetch('/quotes');
-  if(!r.ok){ document.getElementById('table').innerHTML =
-    '<div class="empty">تعذّر تحميل الطلبات</div>'; return; }
-  ROWS = await r.json();
-  render();
-}
-
-function render(){
-  const shown = FILTER ? ROWS.filter(r => r.status === FILTER) : ROWS;
-
-  const newCount = ROWS.filter(r => r.status === 'جديد').length;
-  const won = ROWS.filter(r => r.status === 'مؤكد');
-  const value = won.reduce((s,r) => s + r.total, 0);
-  document.getElementById('kpis').innerHTML = `
-    <div class="kpi"><div class="l">إجمالي الطلبات</div><div class="v">${fmt(ROWS.length)}</div></div>
-    <div class="kpi"><div class="l">جديدة تنتظر الرد</div><div class="v">${fmt(newCount)}</div></div>
-    <div class="kpi"><div class="l">مؤكدة</div><div class="v">${fmt(won.length)}</div></div>
-    <div class="kpi"><div class="l">قيمة المؤكد · ر.س</div><div class="v">${fmt(value)}</div></div>
-    <div class="kpi"><div class="l">محسوبة بالمعادلة — تحتاج مراجعة</div>
-      <div class="v" style="color:var(--warning)">${fmt(ROWS.filter(r=>r.price_source==='حساب'||!r.price_source).length)}</div></div>
-    <div class="kpi"><div class="l">عليها عرض ناقل مثبّت</div>
-      <div class="v" style="color:var(--success)">${fmt(ROWS.filter(r=>r.price_source==='عرض ناقل').length)}</div></div>`;
-
-  document.getElementById('filters').innerHTML =
-    [['','الكل'], ...STATUSES.map(s => [s,s])].map(([v,l]) =>
-      `<button aria-pressed="${FILTER===v}" onclick="FILTER='${v}';render()">${l}</button>`).join('');
-
-  if(!shown.length){
-    document.getElementById('table').innerHTML = '<div class="empty">ما فيه طلبات هنا بعد.</div>';
-    return;
+      .dashboard-grid {
+          grid-template-columns: 1fr;
+      }
   }
 
-  document.getElementById('table').innerHTML = `
-  <table>
-    <thead><tr>
-      <th>المرجع</th><th>التاريخ</th><th>العميل</th><th>الرحلة</th>
-      <th>الشاحنة</th><th>الإجمالي ومصدر السعر</th><th>الحالة</th>
-    </tr></thead>
-    <tbody>${shown.map(r => `
-      <tr>
-        <td><span class="ref">${r.ref}</span></td>
-        <td class="muted">${when(r.created_at)}</td>
-        <td>
-          <div style="font-weight:600">${esc(r.name)}</div>
-          ${r.company ? `<div class="muted">${esc(r.company)}</div>` : ''}
-          <div class="ph">${esc(r.phone)}</div>
-          ${r.email ? `<div class="muted">${esc(r.email)}</div>` : ''}
-        </td>
-        <td>
-          <div>${esc(r.origin)} ← ${esc(r.destination)}</div>
-          <div class="muted">${esc(r.scope||'')}${r.crossing?` · منفذ ${esc(r.crossing)}`:''} · ${fmt(r.distance_km)} كم</div>
-          <div class="muted">${esc(r.load_date||'')}${r.readiness?` · ${esc(r.readiness)}`:''}</div>
-          ${r.notes ? `<div class="muted">📝 ${esc(r.notes)}</div>` : ''}
-        </td>
-        <td>
-          <div>${esc(r.truck_type)}</div>
-          <div class="muted">عدد ${fmt(r.truck_count)} · ${esc(r.weight_band||'')} · ${esc(r.cargo_type||'')}</div>
-          ${r.multiplier && r.multiplier !== 1 ? `<div class="muted">معامل ×${(+r.multiplier).toFixed(2)}</div>` : ''}
-        </td>
-        <td class="money">
-          ${fmt(r.total)}
-          <div class="muted" style="font-weight:400">قبل الضريبة ${fmt(r.subtotal)}</div>
-          ${src(r)}
-        </td>
-        <td>
-          <select onchange="setStatus(${r.id}, this.value)"
-                  style="border-color:${COLORS[r.status]};color:${COLORS[r.status]};font-weight:600">
-            ${STATUSES.map(s => `<option ${s===r.status?'selected':''}>${s}</option>`).join('')}
-          </select>
-        </td>
-      </tr>`).join('')}
-    </tbody>
-  </table>`;
+  @media (max-width: 640px) {
+      .dashboard-page {
+          padding: 24px 16px 50px;
+      }
+
+      .dashboard-heading {
+          align-items: flex-start;
+          flex-direction: column;
+      }
+
+      .dashboard-heading h1 {
+          font-size: 28px;
+      }
+
+      .dashboard-date {
+          display: none;
+      }
+
+      .welcome-card {
+          padding: 24px;
+      }
+
+      .stats-grid {
+          grid-template-columns: 1fr;
+      }
+
+      .quick-links {
+          grid-template-columns: 1fr;
+      }
+
+      .day-row {
+          grid-template-columns: 48px 1fr 28px;
+      }
+  }
+
+  /* Quotes Chart */
+
+.chart-card {
+    width: 100%;
 }
 
-/* الشفافية التي أُزيلت من صفحة العميل تظهر هنا */
-const SRC = {
-  'عرض ناقل': ['عرض ناقل مؤكد',  'var(--success)'],
-  'جدولكم'  : ['من جدول الخطوط', 'var(--info)'],
-  'حساب'    : ['محسوب بالمعادلة','var(--warning)']
-};
-
-function src(r){
-  const c = SRC[r.price_source] || ['غير مسعَّر', 'var(--danger)'];
-  const detail =
-    r.price_source === 'جدولكم'   ? `${fmt(r.trips_in_history)} رحلة سابقة على هذا الخط`
-  : r.price_source === 'حساب'     ? `نطاق ${fmt(r.price_low)}–${fmt(r.price_high)} — يحتاج تثبيت`
-  : r.price_source === 'عرض ناقل' ? 'سعر ناقل مثبّت'
-                                  : 'خارج نطاق التسعير الآلي';
-  return `<div style="margin-top:6px"><span class="badge" style="border-color:${c[1]};color:${c[1]}">${c[0]}</span>
-          <div class="muted" style="font-weight:400">${detail}</div></div>`;
+.chart-container {
+    position: relative;
+    height: 380px;
+    padding: 20px 24px 24px;
 }
+</style>
 
-function esc(s){
-  return String(s ?? '').replace(/[&<>"']/g, c =>
-    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
 
-async function setStatus(id, status){
-  await fetch('/quotes/'+id, {
-    method:'PATCH',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({status})
-  });
-  const row = ROWS.find(r => r.id === id);
-  if(row) row.status = status;
-  render();
-}
+<div class="dashboard-page" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
-function toggleMenu() {
-    document.getElementById('userDropdown').classList.toggle('show');
-}
+  <div class="dashboard-container">
 
-window.addEventListener('click', function (e) {
+      {{-- Page Heading --}}
+      <div class="dashboard-heading">
 
-    if (!e.target.closest('.user-menu')) {
-        document.getElementById('userDropdown').classList.remove('show');
-    }
+          <div>
+              <h1>
+                  {{ app()->getLocale() === 'ar' ? 'لوحة التحكم' : 'Dashboard' }}
+              </h1>
 
-});
+              <p>
+                  {{ app()->getLocale() === 'ar'
+                      ? 'نظرة سريعة على طلبات التسعير وأداء المنصة.'
+                      : 'A quick overview of your pricing requests.' }}
+              </p>
+          </div>
+      </div>
 
-load();
+
+      {{-- Welcome --}}
+      <div class="welcome-card">
+
+          <div class="welcome-content">
+
+              <h2>
+                  {{ app()->getLocale() === 'ar'
+                      ? 'مرحباً بك في لوحة التحكم '
+                      : 'Welcome back ' }}
+              </h2>
+
+              <p>
+                  {{ app()->getLocale() === 'ar'
+                      ? 'تابع طلبات التسعير وحالاتها وقيمتها من مكان واحد.'
+                      : "Here's an overview of your pricing requests." }}
+              </p>
+
+          </div>
+
+      </div>
+
+      <!-- Date Filter -->
+<div class="dashboard-filter">
+  <form method="GET" action="{{ route('dashboard') }}" class="filter-form">
+
+      <div class="filter-field">
+          <label for="from">
+              {{ app()->getLocale() === 'ar'
+                  ? 'من تاريخ'
+                  : 'From Date' }}
+          </label>
+
+          <input
+              type="date"
+              id="from"
+              name="from"
+              value="{{ request('from', $startDate->format('Y-m-d')) }}"
+          >
+      </div>
+
+      <div class="filter-field">
+          <label for="to">
+             {{ app()->getLocale() === 'ar'
+                  ? 'إلى تاريخ'
+                  : 'To Date' }}
+          </label>
+
+          <input
+              type="date"
+              id="to"
+              name="to"
+              value="{{ request('to', $endDate->format('Y-m-d')) }}"
+          >
+      </div>
+
+      <button type="submit" class="filter-button">
+         {{ app()->getLocale() === 'ar'
+              ? 'تصفية'
+              : 'Filter' }}
+      </button>
+
+      <a href="{{ route('dashboard') }}" class="filter-reset">
+         {{ app()->getLocale() === 'ar'
+              ? 'إعادة تعيين'
+              : 'Reset' }}
+      </a>
+
+  </form>
+</div>
+
+
+      {{-- Statistics --}}
+      <div class="stats-grid">
+
+          {{-- Total --}}
+          <div class="stat-card">
+
+              <div class="stat-top">
+
+                  <span class="stat-label">
+                      {{ app()->getLocale() === 'ar'
+                          ? 'إجمالي الطلبات'
+                          : 'Total Quotes' }}
+                  </span>
+
+                  <div class="stat-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M8 6h13"/>
+                          <path d="M8 12h13"/>
+                          <path d="M8 18h13"/>
+                          <path d="M3 6h.01"/>
+                          <path d="M3 12h.01"/>
+                          <path d="M3 18h.01"/>
+                      </svg>
+                  </div>
+
+              </div>
+
+              <div class="stat-value">
+                  {{ $totalQuotes }}
+              </div>
+
+          </div>
+
+
+          {{-- Today --}}
+          {{-- <div class="stat-card">
+
+              <div class="stat-top">
+
+                  <span class="stat-label">
+                      {{ app()->getLocale() === 'ar'
+                          ? 'طلبات اليوم'
+                          : "Today's Quotes" }}
+                  </span>
+
+                  <div class="stat-icon">
+                      <svg viewBox="0 0 24 24">
+                          <rect x="3" y="4" width="18" height="17" rx="2"/>
+                          <path d="M16 2v4"/>
+                          <path d="M8 2v4"/>
+                          <path d="M3 10h18"/>
+                      </svg>
+                  </div>
+
+              </div>
+
+              <div class="stat-value">
+                  {{$dailyQuotes}}
+              </div>
+
+          </div> --}}
+
+
+          {{-- New --}}
+          <div class="stat-card warning">
+
+              <div class="stat-top">
+
+                  <span class="stat-label">
+                      {{ app()->getLocale() === 'ar'
+                          ? 'طلبات جديدة'
+                          : 'New Quotes' }}
+                  </span>
+
+                  <div class="stat-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="M12 5v14"/>
+                          <path d="M5 12h14"/>
+                      </svg>
+                  </div>
+
+              </div>
+
+              <div class="stat-value">
+                  {{ $newQuotes }}
+              </div>
+
+          </div>
+
+
+          {{-- Pricing --}}
+        <div class="stat-card warning">
+
+          <div class="stat-top">
+
+              <span class="stat-label">
+                  {{ app()->getLocale() === 'ar'
+                      ? 'قيد التسعير'
+                      : 'Pricing' }}
+              </span>
+
+              <div class="stat-icon">
+                  <svg viewBox="0 0 24 24">
+                      <path d="M12 2v20"/>
+                      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                  </svg>
+              </div>
+
+          </div>
+
+          <div class="stat-value">
+              {{ $pricingQuotes }}
+          </div>
+
+        </div>
+
+
+          {{-- Confirmed --}}
+          <div class="stat-card success">
+
+              <div class="stat-top">
+
+                  <span class="stat-label">
+                      {{ app()->getLocale() === 'ar'
+                          ? 'طلبات مؤكدة'
+                          : 'Confirmed' }}
+                  </span>
+
+                  <div class="stat-icon">
+                      <svg viewBox="0 0 24 24">
+                          <path d="m5 12 4 4L19 6"/>
+                      </svg>
+                  </div>
+
+              </div>
+
+              <div class="stat-value">
+                  {{ $confirmedQuotes }}
+              </div>
+
+          </div>
+
+      </div>
+
+
+      {{-- Main Dashboard Grid --}}
+      <div class="dashboard-grid">
+
+      <!-- Quotes Chart -->
+<div class="dashboard-card chart-card">
+
+  <div class="card-header">
+      <div>
+          <h3>
+              {{ app()->getLocale() === 'ar'
+                  ? 'الطلبات حسب الفترة'
+                  : 'Quotes by Period' }}
+          </h3>
+
+          <p>
+              {{ app()->getLocale() === 'ar'
+                  ? 'عدد الطلبات المستلمة يومياً'
+                  : 'Number of quotes received per day' }}
+          </p>
+      </div>
+  </div>
+
+  <div class="chart-container">
+      <canvas id="quotesChart"></canvas>
+  </div>
+
+</div>
+
+          {{-- <div class="bar-chart">
+
+            @php
+                $maxCount = collect($dailyQuotes)->max('count') ?: 1;
+            @endphp
+        
+            @foreach($dailyQuotes as $day)
+                <div class="bar-item">
+        
+                    <div class="bar-value">
+                        {{ $day['count'] }}
+                    </div>
+        
+                    <div class="bar-wrapper">
+                        <div
+                            class="bar"
+                            style="height: {{ ($day['count'] / $maxCount) * 100 }}%;"
+                        ></div>
+                    </div>
+        
+                    <div class="bar-label">
+                        {{ $day['label'] }}
+                    </div>
+        
+                </div>
+            @endforeach
+        
+        </div> --}}
+
+
+          {{-- Confirmed Value --}}
+          <div class="dashboard-card">
+
+              <div class="card-header">
+
+                  <div>
+                      <h3>
+                          {{ app()->getLocale() === 'ar'
+                              ? 'القيمة المؤكدة'
+                              : 'Confirmed Value' }}
+                      </h3>
+
+                      <p>
+                          {{ app()->getLocale() === 'ar'
+                              ? 'إجمالي قيمة الطلبات المؤكدة'
+                              : 'Total value of confirmed quotes' }}
+                      </p>
+                  </div>
+
+              </div>
+
+
+              <div class="value-card-body">
+
+                  <div class="value-label">
+                      {{ app()->getLocale() === 'ar'
+                          ? 'إجمالي القيمة'
+                          : 'Total Value' }}
+                  </div>
+
+                  <div class="confirmed-value">
+                      {{ number_format($confirmedValue, 2) }}
+
+                      <span class="currency">
+                          SAR
+                      </span>
+                  </div>
+
+
+                  <div class="value-divider"></div>
+
+
+                  <div class="mini-stat">
+
+                    <span class="mini-stat-label">
+                      {{ app()->getLocale() === 'ar'
+                          ? 'قيد التسعير'
+                          : 'Pricing' }}
+                  </span>
+                  
+                  <span class="mini-stat-value">
+                      {{ $pricingQuotes }}
+                  </span>
+
+                  </div>
+
+
+                  <div class="mini-stat">
+
+                      <span class="mini-stat-label">
+                          {{ app()->getLocale() === 'ar'
+                              ? 'طلبات مؤكدة'
+                              : 'Confirmed Quotes' }}
+                      </span>
+
+                      <span class="mini-stat-value">
+                          {{ $confirmedQuotes }}
+                      </span>
+
+                  </div>
+
+              </div>
+
+          </div>
+
+      </div>
+
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const dailyQuotes = @json($dailyQuotes);
+
+    const labels = dailyQuotes.map(day => day.label);
+    const data = dailyQuotes.map(day => day.count);
+
+    const ctx = document.getElementById('quotesChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+
+        data: {
+            labels: labels,
+
+            datasets: [{
+                label: '{{ app()->getLocale() === "ar" ? "عدد الطلبات" : "Quotes" }}',
+                data: data,
+
+                backgroundColor: '#8b2bd9',
+                borderRadius: 6,
+
+                barThickness: 28,
+
+                borderSkipped: false
+            }]
+        },
+
+        options: {
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    display: false
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return ' ' + context.parsed.y;
+                        }
+                    }
+                }
+            },
+
+            scales: {
+
+                x: {
+                    title: {
+                        display: true,
+                        text: '{{ app()->getLocale() === "ar" ? "التاريخ" : "Date" }}'
+                    },
+
+                    grid: {
+                        display: false
+                    }
+                },
+
+                y: {
+                    beginAtZero: true,
+
+                    ticks: {
+                        precision: 0,
+                        stepSize: 1
+                    },
+
+                    title: {
+                        display: true,
+                        text: '{{ app()->getLocale() === "ar" ? "عدد الطلبات" : "Number of Quotes" }}'
+                    },
+
+                    grid: {
+                        color: '#eee'
+                    }
+                }
+            }
+        }
+    });
 </script>
-</body>
-</html>
+@endsection

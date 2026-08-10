@@ -1,100 +1,524 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
+<nav
+    x-data="{ open: false }"
+    dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"
+>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-            </div>
+    <!-- Mobile Overlay -->
+    <div
+        x-show="open"
+        x-transition.opacity
+        @click="open = false"
+        class="sidebar-overlay"
+    ></div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+    <!-- Sidebar -->
+    <aside
+    class="sidebar"
+    :class="{
+        'sidebar-open': open,
+        'sidebar-collapsed': collapsed
+    }"
+>
 
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
+        <!-- Logo -->
+        <div class="sidebar-logo">
+            <a href="{{ route('dashboard') }}" class="sidebar-brand">
+                <img
+                    src="{{ asset('images/rodud-logo.jpeg') }}"
+                    alt="Rodud"
+                    class="sidebar-logo-image"
+                >
+            </a>
+        </div>
 
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+        <!-- Navigation -->
+        <div class="sidebar-navigation">
 
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
+            <p class="sidebar-section-title">
+                {{ app()->getLocale() === 'ar' ? 'القائمة الرئيسية' : 'MAIN MENU' }}
+            </p>
 
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <!-- Dashboard -->
+            <a
+                href="{{ route('dashboard') }}"
+                class="sidebar-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+            >
+                <span class="sidebar-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
                     </svg>
+                </span>
+
+                <span>
+                    {{ app()->getLocale() === 'ar' ? 'لوحة التحكم' : 'Dashboard' }}
+                </span>
+            </a>
+
+            <!-- Quotes -->
+            <a
+                href="{{ route('admin.quotes') }}"
+                class="sidebar-link {{ request()->routeIs('admin.quotes') ? 'active' : '' }}"
+            >
+                <span class="sidebar-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/>
+                        <path d="M8 8h8"/>
+                        <path d="M8 12h8"/>
+                        <path d="M8 16h5"/>
+                    </svg>
+                </span>
+
+                <span>
+                    {{ app()->getLocale() === 'ar' ? 'طلبات التسعير' : 'Pricing Requests' }}
+                </span>
+            </a>
+
+            <!-- Pricing -->
+            <a
+                href="{{ route('admin.pricing.index') }}"
+                class="sidebar-link {{ request()->routeIs('admin.pricing.*') ? 'active' : '' }}"
+            >
+                <span class="sidebar-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2v20"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                </span>
+
+                <span>
+                    {{ app()->getLocale() === 'ar' ? 'التسعير' : 'Pricing' }}
+                </span>
+            </a>
+
+        </div>
+
+        <!-- Bottom -->
+        <div class="sidebar-bottom">
+
+            <!-- Language Switcher -->
+            <a
+            href="{{ route('locale', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
+            class="sidebar-link language-switcher"
+            >
+            <span class="sidebar-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18Z"/>
+                    <path d="M3 12h18"/>
+                    <path d="M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9"/>
+                    <path d="M12 3c-2.5 2.5-3.5 5.5-3.5 9s1 6.5 3.5 9"/>
+                </svg>
+            </span>
+
+            <span>
+                {{ app()->getLocale() === 'ar' ? 'English' : 'العربية' }}
+            </span>
+            </a>
+
+           
+
+            <!-- User -->
+            <div class="sidebar-user">
+
+                <div class="sidebar-user-avatar">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </div>
+
+                <div class="sidebar-user-info">
+                    <strong>{{ Auth::user()->name }}</strong>
+                    <span>{{ Auth::user()->email }}</span>
+                </div>
+
+            </div>
+
+            <!-- Logout -->
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+
+                <button
+                    type="submit"
+                    class="sidebar-link sidebar-logout"
+                >
+                    <span class="sidebar-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M10 17l5-5-5-5"/>
+                            <path d="M15 12H3"/>
+                            <path d="M21 3v18"/>
+                        </svg>
+                    </span>
+
+                    <span>
+                        {{ app()->getLocale() === 'ar' ? 'تسجيل الخروج' : 'Log Out' }}
+                    </span>
                 </button>
-            </div>
-        </div>
-    </div>
+            </form>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
         </div>
 
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
+    </aside>
 
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
+    <!-- Mobile Button -->
+    <button
+        type="button"
+        @click="open = !open"
+        class="sidebar-mobile-button"
+    >
+        <svg
+            x-show="!open"
+            viewBox="0 0 24 24"
+        >
+            <path d="M4 6h16"/>
+            <path d="M4 12h16"/>
+            <path d="M4 18h16"/>
+        </svg>
 
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
+        <svg
+            x-show="open"
+            viewBox="0 0 24 24"
+        >
+            <path d="M6 6l12 12"/>
+            <path d="M18 6L6 18"/>
+        </svg>
+    </button>
 
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
-    </div>
 </nav>
+
+<style>
+    .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    background: #ffffff;
+    border-right: 1px solid #E6E2EC;
+    box-shadow: 0 6px 20px rgba(14, 10, 20, .06);
+    display: flex;
+    flex-direction: column;
+    z-index: 1001;
+}
+
+    /* Collapsed Sidebar */
+.sidebar {
+    transition: width .25s ease;
+}
+
+.sidebar.sidebar-collapsed {
+    width: 76px;
+}
+
+.sidebar.sidebar-collapsed .sidebar-section-title,
+.sidebar.sidebar-collapsed .sidebar-link > span:not(.sidebar-icon),
+.sidebar.sidebar-collapsed .sidebar-user-info {
+    display: none;
+}
+
+.sidebar.sidebar-collapsed .sidebar-navigation {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sidebar.sidebar-collapsed .sidebar-link {
+    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sidebar.sidebar-collapsed .sidebar-icon {
+    margin: 0;
+}
+
+.sidebar.sidebar-collapsed .sidebar-logo {
+    justify-content: center;
+    padding: 0;
+}
+
+.sidebar.sidebar-collapsed .sidebar-logo-image {
+    width: 42px;
+}
+
+.sidebar.sidebar-collapsed .sidebar-user {
+    justify-content: center;
+}
+
+.sidebar.sidebar-collapsed .sidebar-logout {
+    justify-content: center;
+}
+
+    [dir="rtl"] .sidebar {
+        right: 0;
+        border-right: none;
+        border-left: 1px solid #E6E2EC;
+    }
+
+    [dir="ltr"] .sidebar {
+        left: 0;
+    }
+
+    .sidebar-logo {
+        height: 82px;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        border-bottom: 1px solid #E6E2EC;
+    }
+
+    .sidebar-logo a {
+        display: flex;
+        align-items: center;
+    }
+
+    .sidebar-logo-image {
+        width: 60px ;
+        height: auto;
+    }
+
+    .sidebar-navigation {
+        padding: 28px 16px;
+        flex: 1;
+    }
+
+    .sidebar-section-title {
+        margin: 0 12px 12px;
+        color: #9B94A5;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .06em;
+    }
+
+    .sidebar-link {
+        width: 100%;
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 13px;
+        margin-bottom: 6px;
+        border: 0;
+        border-radius: 12px;
+        background: transparent;
+        color: #5B5468;
+        text-decoration: none;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: .2s ease;
+        text-align: start;
+    }
+
+    .sidebar-link:hover {
+        background: #F7F0FC;
+        color: #7818C0;
+    }
+
+    .sidebar-link.active {
+        background: #F0E3F9;
+        color: #5F12A0;
+        font-weight: 800;
+    }
+
+    .sidebar-icon {
+        width: 21px;
+        height: 21px;
+        flex: 0 0 21px;
+        display: grid;
+        place-items: center;
+    }
+
+    .sidebar-icon svg {
+        width: 19px;
+        height: 19px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .sidebar-bottom {
+        padding: 16px;
+        border-top: 1px solid #E6E2EC;
+    }
+
+    .sidebar-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 4px;
+        margin-bottom: 6px;
+    }
+
+    .sidebar-user-avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        display: grid;
+        place-items: center;
+        background: #ECDFF7;
+        color: #5F12A0;
+        font-size: 14px;
+        font-weight: 800;
+        flex: 0 0 38px;
+    }
+
+    .sidebar-user-info {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sidebar-user-info strong {
+        color: #2B2333;
+        font-size: 13px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .sidebar-user-info span {
+        margin-top: 2px;
+        color: #8A8497;
+        font-size: 11px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .sidebar-logout {
+        color: #8A8497;
+    }
+
+    .sidebar-logout:hover {
+        color: #C0392B;
+        background: #FFF5F4;
+    }
+
+    .sidebar-mobile-button,
+    .sidebar-overlay {
+        display: none;
+    }
+
+    @media (max-width: 768px) {
+
+        .sidebar {
+            width: 270px;
+            transform: translateX(110%);
+            transition: transform .25s ease;
+        }
+
+        [dir="ltr"] .sidebar {
+            transform: translateX(-110%);
+        }
+
+        [dir="rtl"] .sidebar.sidebar-open {
+            transform: translateX(0);
+        }
+
+        [dir="ltr"] .sidebar.sidebar-open {
+            transform: translateX(0);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            display: block;
+            background: rgba(14, 10, 20, .35);
+            z-index: 1000;
+        }
+
+        .sidebar-mobile-button {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            width: 44px;
+            height: 44px;
+            border: 1px solid #E6E2EC;
+            border-radius: 12px;
+            background: #fff;
+            color: #5F12A0;
+            display: grid;
+            place-items: center;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(14, 10, 20, .08);
+        }
+
+        [dir="ltr"] .sidebar-mobile-button {
+            right: auto;
+            left: 16px;
+        }
+
+        .sidebar-mobile-button svg {
+            width: 21px;
+            height: 21px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+    }
+    .admin-content {
+    min-height: 100vh;
+    margin-inline-start: 260px;
+    transition: margin .25s ease;
+}
+
+body.sidebar-is-collapsed .admin-content {
+    margin-inline-start: 76px;
+}
+
+@media (max-width: 768px) {
+    .admin-content {
+        margin-inline-start: 0;
+    }
+
+    body.sidebar-is-collapsed .admin-content {
+        margin-inline-start: 0;
+    }
+}
+
+.sidebar-toggle {
+    position: absolute;
+    top: 88px;
+    left: -14px;
+
+    width: 28px;
+    height: 28px;
+
+    border: 1px solid #E6E2EC;
+    border-radius: 50%;
+
+    background: #fff;
+    color: #5F12A0;
+
+    display: grid;
+    place-items: center;
+
+    cursor: pointer;
+    z-index: 1005;
+
+    box-shadow: 0 3px 10px rgba(14, 10, 20, .12);
+}
+
+.sidebar-toggle svg {
+    width: 16px;
+    height: 16px;
+
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+[dir="rtl"] .sidebar-toggle {
+    left: auto;
+    right: -14px;
+}
+.language-switcher {
+    margin-bottom: 8px;
+}
+
+
+</style>
