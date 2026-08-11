@@ -507,39 +507,68 @@
   }
 
   @media (max-width: 640px) {
-      .dashboard-page {
-          padding: 24px 16px 50px;
-      }
+    .dashboard-page {
+        padding: 24px 16px 50px;
+    }
 
-      .dashboard-heading {
-          align-items: flex-start;
-          flex-direction: column;
-      }
+    .dashboard-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
 
-      .dashboard-heading h1 {
-          font-size: 28px;
-      }
+    .dashboard-heading h1 {
+        font-size: 28px;
+    }
 
-      .dashboard-date {
-          display: none;
-      }
+    .dashboard-date {
+        display: none;
+    }
 
-      .welcome-card {
-          padding: 24px;
-      }
+    .welcome-card {
+        padding: 24px;
+    }
 
-      .stats-grid {
-          grid-template-columns: 1fr;
-      }
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
 
-      .quick-links {
-          grid-template-columns: 1fr;
-      }
+    .quick-links {
+        grid-template-columns: 1fr;
+    }
 
-      .day-row {
-          grid-template-columns: 48px 1fr 28px;
-      }
-  }
+    .day-row {
+        grid-template-columns: 48px 1fr 28px;
+    }
+
+    /* Date Filter - Mobile */
+    .dashboard-filter {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .filter-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+    }
+
+    .filter-field {
+        width: 100%;
+    }
+
+    .filter-field input {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .filter-button,
+    .filter-reset {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+}
 
   /* Quotes Chart */
 
