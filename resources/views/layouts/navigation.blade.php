@@ -1,5 +1,5 @@
 <nav
-    x-data="{ open: false }"
+    x-data="{ open: false, collapsed: false }"
     dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"
 >
 
@@ -100,7 +100,7 @@
 
             <!-- Language Switcher -->
             <a
-            href="{{ route('locale', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
+            href="{{ route('admin.locale', app()->getLocale() === 'ar' ? 'en' : 'ar') }}"
             class="sidebar-link language-switcher"
             >
             <span class="sidebar-icon">
@@ -430,8 +430,8 @@
 
         .sidebar-mobile-button {
             position: fixed;
-            top: 16px;
-            right: 16px;
+            bottom: 20px;
+            left: 20px;
             width: 44px;
             height: 44px;
             border: 1px solid #E6E2EC;
@@ -440,14 +440,10 @@
             color: #5F12A0;
             display: grid;
             place-items: center;
-            z-index: 999;
-            box-shadow: 0 4px 15px rgba(14, 10, 20, .08);
+            z-index: 1005;
+            box-shadow: 0 4px 15px rgba(14, 10, 20, .12);
         }
 
-        [dir="ltr"] .sidebar-mobile-button {
-            right: auto;
-            left: 16px;
-        }
 
         .sidebar-mobile-button svg {
             width: 21px;

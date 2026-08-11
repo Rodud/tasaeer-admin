@@ -41,15 +41,27 @@ Route::get('/admin/quotes', [QuoteController::class, 'index'])
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::get('/locale/{locale}', function ($locale) {
-
     if (! in_array($locale, ['ar', 'en'])) {
         abort(404);
     }
 
     session(['locale' => $locale]);
 
+    return redirect('/');
+})->name('locale');
+
+Route::get('/admin/locale/{locale}', function ($locale) {
+
+    if (! in_array($locale, ['ar', 'en'])) {
+        abort(404);
+    }
+
+    session(['admin_locale' => $locale]);
+
     return back();
 
-})->name('locale');
+})->name('admin.locale');
+
+
 
 require __DIR__.'/auth.php';
