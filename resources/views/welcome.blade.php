@@ -6,7 +6,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{{ __('بوابة النقل للخدمات اللوجستية · عملاء هيئة تنمية الصادرات السعودية') }}</title>
+<title>{{ __('بوابة النقل للخدمات اللوجستية') }}</title>
 <meta name="description" content="{{ __('احسب تكلفة شحنتك داخل المملكة وإلى دول الجوار، واطلب عرض سعر مباشرة.') }}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -731,7 +731,7 @@ window.PORTAL = {
   whatsapp:"966549133000",
   phone:"+966 54 913 3000",
   email:"info@rodud.com",
-  cr:"ردود للخدمات اللوجستية · السجل التجاري: —  ·  الرقم الضريبي: —",
+  cr:"ردود للخدمات اللوجستية · السجل التجاري: 7017565156 · الرقم الضريبي: 310649816700003",
   validDays:7,
   arabicDigits: {{ app()->getLocale() === 'ar' ? 'true' : 'false' }}
 };
