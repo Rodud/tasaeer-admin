@@ -118,3 +118,24 @@ Acceptance must include an actual subsequent documentation-only `main` to
 `production` merge, automatic success, matching live `REVISION`, and a hash
 comparison proving this document arrived in the live release. A manual file copy
 or manual worker invocation is not that acceptance test.
+
+## Verified bootstrap and documentation-delivery check (2026-11-05)
+
+The initial automatic rollout of production commit
+`b9bbbd309ee680a88c2ced5b5df45c7641debbaf` succeeded without manually invoking the
+release worker. The timer started it at 13:21:24 and completed it at 13:21:59
+(Asia/Riyadh). The new release passed 47 PHP tests / 132 assertions, all 19
+deployment tests on Linux, Composer and npm security audits, the frontend build,
+private database backup, migrations and HTTPS/authorization health gates.
+
+This subsequent documentation-only update carries the acceptance marker:
+
+```text
+pricing-production-documentation-proof-20261105-v1
+```
+
+Its acceptance procedure is to merge the complete `main` into `production`, wait
+for the timer's successful result, and compare both the production merge SHA
+against the live `REVISION` and this document's SHA256 against the live file.
+Do not copy this document directly to the host to satisfy that check. Routine
+unchanged polls must leave the release pointer and pricing PHP process untouched.
