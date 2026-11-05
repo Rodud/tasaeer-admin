@@ -1,0 +1,26 @@
+[Unit]
+Description=Isolated pricing production branch deployment
+After=network-online.target mariadb.service
+Wants=network-online.target
+[Service]
+Type=oneshot
+User=togoo-pricing-deploy
+Group=togoo-pricing
+WorkingDirectory=/var/lib/togoo-pricing-deploy
+ExecStart=/usr/bin/python3 -B /etc/togoo-pricing-deploy/worker.py
+TimeoutStartSec=1800
+UMask=0027
+Nice=10
+CPUQuota=100%
+MemoryMax=1G
+TasksMax=128
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/www/togoo-pricing /var/lib/togoo-pricing-deploy
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6

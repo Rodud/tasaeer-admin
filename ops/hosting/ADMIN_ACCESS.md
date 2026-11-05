@@ -23,4 +23,4 @@ to return 404. Ordinary accounts, including pre-existing sessions, must receive
 
 Deploy this additive migration and code together to the isolated pricing
 application. Never restart shared Nginx or any other hosted application's
-services for this change. No automatic deployment from GitHub is configured yet.
+services for this change. Routine releases follow docs/AUTOMATIC_DEPLOYMENT.md through the production branch.

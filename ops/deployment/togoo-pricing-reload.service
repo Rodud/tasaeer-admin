@@ -1,0 +1,21 @@
+[Unit]
+Description=Reload only Pricing website PHP for an isolated release worker request
+[Service]
+Type=oneshot
+User=root
+Group=root
+ExecStart=/usr/bin/python3 /etc/togoo-pricing-deploy/reload-broker.py
+RuntimeDirectory=togoo-pricing-deploy
+RuntimeDirectoryMode=0755
+RuntimeDirectoryPreserve=yes
+TimeoutStartSec=40
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/run/togoo-pricing-deploy
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX

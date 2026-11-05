@@ -1,0 +1,24 @@
+[Unit]
+Description=Isolated transport pricing website PHP-FPM
+After=network.target mariadb.service
+[Service]
+Type=simple
+ExecStart=/usr/sbin/php-fpm8.5 --nodaemonize --fpm-config /etc/togoo-pricing/fpm.conf
+ExecReload=/bin/kill -USR2 $MAINPID
+Restart=on-failure
+MemoryMax=512M
+CPUQuota=100%
+TasksMax=32
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/run/php /var/log/togoo-pricing /var/www/togoo-pricing/shared/storage /var/www/togoo-pricing/current/bootstrap/cache
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+NoNewPrivileges=true
+IPAddressDeny=169.254.169.254/32
+BindReadOnlyPaths=/run/systemd/resolve/stub-resolv.conf:/etc/resolv.conf
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,9 @@
+[Unit]
+Description=Check pricing production branch every minute
+[Timer]
+OnBootSec=30s
+OnUnitInactiveSec=60s
+AccuracySec=5s
+Unit=togoo-pricing-deploy.service
+[Install]
+WantedBy=timers.target
