@@ -1,36 +1,36 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\QuoteController;
-use App\Http\Controllers\Admin\PricingController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PricingController;
+use App\Http\Controllers\Admin\QuoteController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/pricing-data', [PricingController::class, 'data'])
     ->name('pricing.data');
-    Route::get('/api/pricing', [PricingController::class, 'data'])
+Route::get('/api/pricing', [PricingController::class, 'data'])
     ->name('pricing.api');
 
 // العميل يرسل طلب بدون تسجيل دخول
 Route::post('/quotes', [QuoteController::class, 'store']);
 
 // صفحات الإدارة تحتاج تسجيل دخول
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'can:access-admin'])->group(function () {
 
- Route::get('/admin', [DashboardController::class, 'index'])
-    ->name('dashboard');
+    Route::get('/admin', [DashboardController::class, 'index'])
+        ->name('dashboard');
 
-Route::get('/admin/quotes', [QuoteController::class, 'index'])
-    ->name('admin.quotes');
+    Route::get('/admin/quotes', [QuoteController::class, 'index'])
+        ->name('admin.quotes');
 
     Route::get('/admin/pricing', [PricingController::class, 'index'])
-    ->name('admin.pricing.index');
+        ->name('admin.pricing.index');
 
     Route::patch('/admin/pricing/{pricingLane}', [PricingController::class, 'update'])
-    ->name('admin.pricing.update');
+        ->name('admin.pricing.update');
 
     Route::get('/quotes', [QuoteController::class, 'getQuotes']);
     Route::patch('/quotes/{quote}', [QuoteController::class, 'updateStatus']);
@@ -61,7 +61,5 @@ Route::get('/admin/locale/{locale}', function ($locale) {
     return back();
 
 })->name('admin.locale');
-
-
 
 require __DIR__.'/auth.php';
